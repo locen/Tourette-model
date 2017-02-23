@@ -1,5 +1,9 @@
-# Tourette-model
-Authors: Daniele Caligiore, Francesco Mannella, Michael A. Arbib and Gianluca Baldassarre
+## Dysfunctions of the basal ganglia-cerebellar-thalamo-cortical system produce motor tics in Tourette syndrome - a computational model
+
+### Authors: Daniele Caligiore, Francesco Mannella, Michael A. Arbib and Gianluca Baldassarre
+
+### Source code of the simulation
+
 
 ```
 ├── README.md
