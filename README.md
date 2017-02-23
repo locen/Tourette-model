@@ -16,14 +16,14 @@ Authors: Daniele Caligiore, Francesco Mannella, Michael A. Arbib and Gianluca Ba
 
 ```
 
-ga_search.py
+***ga_search.py***
 
 Run genetic algorithms in parallel via mpi
 
-example: mpirun -n 8 python ga_search.py -g 100 -p 100 -t 1.0
+example: **mpirun -n 8 python ga_search.py -g 100 -p 100 -t 1.0**
 
-    runs a genetic algorithm with populations of 100 individuals
-    for 100 generations. The simulation time maximum limit is 01:00 hour 
+runs a genetic algorithm with populations of 100 individuals
+for 100 generations. The simulation time maximum limit is 01:00 hour 
 
 ```
 usage:ga_search.py [-h] [-g NGEN] [-p NPOP] [-s SIGMA] [-m MUTATEPB] [-c MATEPB]
@@ -53,7 +53,7 @@ optional arguments:
                         execution time (hours)
 ```
 
-ga_test.py
+***ga_test.py***
 
 Shows the results of a genetic algorithm.
 Produces 
@@ -74,9 +74,9 @@ Produces
     9) Plot hystory of scores
 
 
-example: python ga_test.py -r 0.5
+example: **python ga_test.py -r 0.5**
 
-    use (standard deviations)*0.5 in (8)
+use (standard deviations)*0.5 in (8)
 
 ```
 
