@@ -1,5 +1,24 @@
 #!/usr/bin/env python
 
+# CerBERUS - Cerebellum-Basal ganglia-CortEx Research Unified System.
+# Copyright (C) 2016 Francesco Mannella <francesco.mannella@gmail.com> 
+# and Daniele Caligiore <daniele.caligiore@gmail.com>
+#
+# This file is part of CerBERUS.
+#
+# CerBERUS is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CerBERUS is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CerBERUS.  If not, see <http://www.gnu.org/licenses/>.
+
 import os
 import numpy as np
 from numpy.random import RandomState as RNG
@@ -160,29 +179,6 @@ class TicsSimulation():
         """
         @param  rng                 random number generator
         @param  pm                  parameter_manager
-                                    
-                                    contains
-                            
-                                    1) main_params
-
-                                        TRIAL_LENGTH, TIC_INTERVAL, DT, TAU, N, w_bg2tha, w_tha2crx, 
-                                        w_tha2crx_l2, w_crx2thal, w_tha2bg, w_crb2tha, w_crb2crbtha, 
-                                        w_bg2crb, w_crx2crb, w_crx2crbthal, w_crbtha2crx, w_crbtha2crx_l2, 
-                                        bl_thalamus, th_crx2tha, th_crx2crbtha, da_min, inp_diff, 
-                                        inp_noise_std, noise_bl_inp, crx_inp_noise_std, noise_bl_crx_inp, 
-                                        crb_inp_noise_std, noise_bl_crb_inp, noise_sd_thalamus, 
-                                        noise_bl_thalamus, noise_sd_crbthalamus, noise_bl_crbthalamus, 
-                                        tic_threshold
-
-                                    2) bg_params
-                                    
-                                        bg.w_cri2sd1, bg.w_cri2sd2, bg.w_cri2stn, bg.w_cro2sd1, bg.w_cro2sd2, 
-                                        bg.w_cro2stn, bg.w_sd12gpi, bg.w_stn2gpi, bg.w_sd22gpe, bg.w_stn2gpe, 
-                                        bg.w_gpi2gpe, bg.w_gpe2gpi, bg.w_gpe2stn, bg.bl_sd1, bg.da_sd1, 
-                                        bg.da_th_sd1, bg.bl_sd2, bg.da_sd2, bg.bl_gpe, bg.bl_gpi, bg.w_str_inn, 
-                                        bg.blm_sd1, bg.blm_sd2, bg.noise_sd_sd1, bg.noise_sd_sd2, 
-                                        bg.noise_sd_stn, bg.noise_sd_gpi, bg.noise_sd_gpe
-
         @param  SEED                seed of the random number generator
         @param  TRIALS              number of trials
         @param  LESION              type of lesion
@@ -347,9 +343,12 @@ class TicsSimulation():
                 + self.noise_bl_crx_inp 
         
         
+        # DEFINE EXTERNAL STIMULUS
+
         if not self.RANDOM_EXTERNAL :
-        
-            
+         
+            # THE EXTERNAL STIMULUS IS FIXED 
+
             x = np.linspace(-5,5,int(self.TRIAL_LENGTH*(self.EP_TIC_P_LENGTH)))
             y1 = np.exp(-(x/self.EP_TIC_P_SIGMA)**2)
             x = np.linspace(-5,5,int(self.TRIAL_LENGTH*(self.EP_NOTIC_P_LENGTH)))
@@ -407,6 +406,8 @@ class TicsSimulation():
         
         
         else:
+            
+            # THE EXTERNAL STIMULUS IS RANDOM 
              
             x = np.linspace(-5,5,int(self.TRIAL_LENGTH*(self.EP_P_LENGTH)))
             y = np.exp(-(x/self.EP_P_SIGMA)**2)
@@ -421,6 +422,7 @@ class TicsSimulation():
                     start = (i*self.TRIAL_LENGTH) - gap
                     end = start + int(self.TRIAL_LENGTH*(self.EP_P_LENGTH))
                     crx_inp[:, start:end] += self.EP_P_AMP*self.rng.uniform(0,3)*np.outer(self.rng.rand(self.bg.N), y) 
+
 
         # CEREBELLAR INPUT
         crb_inp = self.crb_inp_noise_std*self.rng.randn(self.bg.N, self.STIME) \

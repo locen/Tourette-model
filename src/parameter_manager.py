@@ -1,13 +1,45 @@
 #!/usr/bin/env python
 
+# CerBERUS - Cerebellum-Basal ganglia-CortEx Research Unified System.
+# Copyright (C) 2016 Francesco Mannella <francesco.mannella@gmail.com> 
+# and Daniele Caligiore <daniele.caligiore@gmail.com>
+#
+# This file is part of CerBERUS.
+#
+# CerBERUS is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CerBERUS is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CerBERUS.  If not, see <http://www.gnu.org/licenses/>.
+
 import os
 
 def scale(param, min_val, max_val):
+    '''
+    Scales a parameter value from the standard interval [0;1]
+    to the real interval [min_val;max_val]
 
+    :param  param       the current parameter value
+    :param  min_val     the lower bound of the unscaled range
+    :param  max_val     the upper bound of the unscaled range
+    '''
     return param*(max_val - min_val) + min_val
 
 
 class ParameterManager:
+    '''
+    Manages te parameters of the simulations.
+
+    Reads from the file 'ga_parameters'
+
+    '''
     
     NUM_PARAMS = 32
     
@@ -21,6 +53,7 @@ class ParameterManager:
         self.set_par_list = dict()
         self.par_list = [] 
 
+        # read parameters and ranges from ga_parameters
         with open('ga_parameters', 'r') as parfile:
             lines = parfile.readlines()
             for line in lines[2:]:
@@ -39,12 +72,25 @@ class ParameterManager:
         assert(len(self.par_list) == self.NUM_PARAMS)
     
     def init_parameter(self, par, pmin, pmax):
+        '''
+        Prepare the list of parameters to be taken from the Genetic Algorithm
+
+        :param  par         a string defining the name of the parameter
+        :param  pmin        the lower bound of the unscaled range
+        :param  pmax        the upper bound of the unscaled range
+        '''
         
         self.par_list.append(par)
         self.set_par_list[par] = [pmin, pmax]
         
     def set_parameter(self, par, value) :
-            
+           '''
+            Prepare the list of fixed parameters
+
+            :param  par         a string defining the name of the parameter
+            :param  value       the value of hte parameter
+            '''
+         
             if par in self.main_params.keys():
                 self.main_params[par] = value 
             elif par in self.bg_params.keys():
@@ -52,6 +98,11 @@ class ParameterManager:
 
 
     def set_parameters(self, params) :
+        '''
+        Set all parameters to the fixed values
+
+        :param  params  list of all parameters
+        '''
 
         assert(len(params)==self.NUM_PARAMS)
 
@@ -64,20 +115,32 @@ class ParameterManager:
 
 
     def get_all_params(self):
+        '''
+        Create a dictionary with all parameters
+        '''
+
         all_pars = dict()
         all_pars.update(self.main_params)
         all_pars.update(self.bg_params)
         return all_pars
 
     def get_main_params(self):
+        '''
+        Get parameters of the main system
+        '''
 
         return self.main_params
     
     def get_bg_params(self):
-
+        '''
+        Get basal-ganglia parameters
+        '''
         return self.bg_params
 
     def set_default_params(self):
+        '''
+        Set default parameters (in case there is no ga_parameters file)
+        '''
         
         self.main_params.setdefault(            'TRIAL_LENGTH', 808                )
         self.main_params.setdefault(            'TIC_INTERVAL', 1                  )

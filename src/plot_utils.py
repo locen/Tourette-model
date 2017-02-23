@@ -1,6 +1,23 @@
 #!/usr/bin/python
 
-#TODO substitute import *
+# CerBERUS - Cerebellum-Basal ganglia-CortEx Research Unified System.
+# Copyright (C) 2016 Francesco Mannella <francesco.mannella@gmail.com> 
+# and Daniele Caligiore <daniele.caligiore@gmail.com>
+#
+# This file is part of CerBERUS.
+#
+# CerBERUS is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CerBERUS is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CerBERUS.  If not, see <http://www.gnu.org/licenses/>.
 
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt

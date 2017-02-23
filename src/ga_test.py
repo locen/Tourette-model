@@ -1,5 +1,26 @@
 #!/usr/bin/env python
 
+# CerBERUS - Cerebellum-Basal ganglia-CortEx Research Unified System.
+# Copyright (C) 2016 Francesco Mannella <francesco.mannella@gmail.com> 
+# and Daniele Caligiore <daniele.caligiore@gmail.com>
+#
+# This file is part of CerBERUS.
+#
+# CerBERUS is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CerBERUS is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CerBERUS.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
 import os
 import glob
 import argparse
@@ -18,6 +39,10 @@ np.set_printoptions(suppress=True, precision=5, linewidth=9999999)
 
 Sim.SAVE_POTENTIALS=False
 Sim.SCORE = ScoreTypes.ANALYTIC
+
+
+
+# ARGUMENT PARSING -------------------------------------
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -40,6 +65,8 @@ THRESHOLD  =  float(args.threshold)
 INTERACTIVE  =  float(args.interactive)
 
 
+# manage matplotlib interactivity -----------------------
+
 if not INTERACTIVE :
     import matplotlib
     matplotlib.use("Agg")
@@ -50,10 +77,17 @@ from plot_demo import plot_means
 
 if  INTERACTIVE :
     plt.ion()
+#--------------------------------------------------------
 
 
 
 def test (individual_seed, params, data):
+    """
+    :param  individual_seed     the seed of the test
+    :param  params              the list of parameters
+    :param  data                the target data to compute 
+                                the objective
+    """
 
     pm = PM()
     
@@ -78,6 +112,10 @@ def test (individual_seed, params, data):
     
     return sim, pm, score
 
+#-----------------------------------------------------------------------------------
+# load data about all populations and seeds
+# build the pandas dataframe
+# query for the best scores x generation
 
 n_par = PM.NUM_PARAMS
 
@@ -108,6 +146,10 @@ bests = gen_data_df.groupby('gen', as_index=False)
 bests = bests.apply(lambda g: g[g['score'] == np.min(g['score']) ].iloc[0,:] )
 
 #-----------------------------------------------------------------------------------
+# query for the overall best score and save it to csv
+# get parameters of the best score
+# load target data
+
 print """
 
 
@@ -124,6 +166,8 @@ params = last.iloc[0,2:].as_matrix()
 data = tics_simulation.load_target_data()
 
 
+#-----------------------------------------------------------------------------------
+# iterate over seeds and do the tests with the optimized parameters
 
 frames =[]
 for seed in seeds:
@@ -148,6 +192,12 @@ for seed in seeds:
     print
     print
 
+#-----------------------------------------------------------------------------------
+# save data of the seeds
+# save target data
+# get the ordered list of parameters
+
+
 allframes = pd.concat(frames)
 
 allframes.to_csv("analysis_data", sep='\t', encoding='utf-8')
@@ -158,6 +208,9 @@ par_list = np.array(pm.par_list)
 raw_input("Press key to go on")
 
 #-----------------------------------------------------------------------------------
+# query for all the overthreshold scores over all generations
+# print graphs
+
 print """
 
 
@@ -204,6 +257,10 @@ else :
 raw_input("Press key to go on")
 
 #-----------------------------------------------------------------------------------
+# query for all the  scores of the last generation 
+# print graphs
+
+
 print """
 
 
@@ -226,6 +283,8 @@ print
 raw_input("Press key to go on")
 
 #-----------------------------------------------------------------------------------
+# compute ranges of the last generation 
+
 print """
 
 
@@ -250,6 +309,8 @@ print
 raw_input("Press key to go on")
 
 #-----------------------------------------------------------------------------------
+# compute fitness graph (best scores x generation)  
+
 print """
 
 

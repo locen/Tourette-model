@@ -1,3 +1,23 @@
+# CerBERUS - Cerebellum-Basal ganglia-CortEx Research Unified System.
+# Copyright (C) 2016 Francesco Mannella <francesco.mannella@gmail.com> 
+# and Daniele Caligiore <daniele.caligiore@gmail.com>
+#
+# This file is part of CerBERUS.
+#
+# CerBERUS is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# CerBERUS is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with CerBERUS.  If not, see <http://www.gnu.org/licenses/>.
+
+
 import os
 import sys
 import random
@@ -19,11 +39,18 @@ from collections import Sequence
 import mpipool.core 
 import argparse
 
+# manage a Genetic Algorithm using deap to find the parameters of the model
+
+
+# enum fro the types of 
+# objective functions
 
 class ObjTypes :
     SIMPLE = 0
     COMPLEX = 1
 
+# a functor class managing objective 
+# functions of the GA
 class Objective:
 
     OUTLIER_SCORE = 100.0
@@ -194,14 +221,15 @@ def boundedMutGaussian(individual, sigma, indpb):
 
 if __name__ == "__main__" :
     
+    # init the pool object to work in parallel using openmpi
     pool = mpipool.core.MPIPool(loadbalance=True)
     
-    gen_time = 0.0
-
+    gen_time = 0.0 # a time counter
     np.set_printoptions(suppress=False, precision=5, linewidth=9999999)
 
-    #----------------------------------------------------------------------------------------
+    #----------------------------------------------------------------------------
 
+    # ARGUMENT PARSING ----------------------------------------------------------
     args = None
     comm = pool.comm
     try:
@@ -281,60 +309,77 @@ if __name__ == "__main__" :
     EXECTIME               =  float(args.exectime)
 
 
-    #----------------------------------------------------------------------------------------
+    #----------------------------------------------------------------------------
     
-
+    # instantiate the functor for the objective
     objective = Objective(obj_type=OBJTYPE)
     
+    # the master thread saves the seeds
     if pool.is_master() : 
     
         print " saving  all_seeds..."
         np.savetxt("all_seeds", objective.seeds )
         print "   saved"
+    
+    # init the GA registering all methods
 
     toolbox = base.Toolbox()
-
+    
+    # generate the functions to create individuals (individuals
+    # have minimizing fitness)
     creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMin)
     
+    # generate the initial population
     generator = PopGenerator(n_pars=PM.NUM_PARAMS, n_ind=NPOP, gen_type=GTYPE)
     toolbox.register("attr_float", generator)
     toolbox.register("individual", tools.initRepeat, creator.Individual,
             toolbox.attr_float, n=PM.NUM_PARAMS)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
+    # here we register our functor as the objective of the GA -------------------
     toolbox.register("evaluate", objective )
+    #----------------------------------------------------------------------------
+
+    # other GA parameters
     toolbox.register("mate", tools.cxUniform, indpb=INDMATEPB  )
     toolbox.register("mutate", boundedMutGaussian, sigma=SIGMA, indpb=INDMUTATEPB)
     toolbox.register("select", tools.selTournament, tournsize=3)
 
+    # register pool.map as the map function so that individuals 
+    # are run in parallel with openmpi
     toolbox.register("map", pool.map)
-        
+    
+    # get the population
     population = toolbox.population(n=NPOP)
 
-
-    
-    
+    # iterate over generations
     for gen in range(NGEN):
         
+        # read clock time
         gen_time = time.clock()/3600.0
         
+        # print the current generation and time info
         if pool.is_master() :
             print "gen:  {}".format(gen)
             print "hour: {:2.3f}".format(gen_time)
                 
+        # control if the execution walltime has been exceeded
         if gen_time >= EXECTIME :
             if pool.is_master() :
                 print "stopped at hours {:2.3f} from the beginning".format(gen_time/60.0) 
             pool.close()
             break
         
+        # run the generation and wait for all threads to finish
         offspring = algorithms.varAnd(population, toolbox, cxpb=CXPB, mutpb=MUTPB)
         fits = toolbox.map(toolbox.evaluate, offspring)
         pool.close()
         
+        # get the current population
         population = toolbox.select(offspring, k=len(population))
         
+        # the master thread gives info about the current population
         if pool.is_master() : 
 
             
@@ -355,7 +400,7 @@ if __name__ == "__main__" :
             print "   saved"
             print
 
-    
+    # end of simulation
     if pool.is_master() : 
     
         print "   end of simulation"
