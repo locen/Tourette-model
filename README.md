@@ -56,22 +56,17 @@ optional arguments:
 ***ga_test.py***
 
 Shows the results of a genetic algorithm.
-Produces 
-    1. Plots of the mean firing rates of the best simulation per area
-    2. Plot of the history of best scores of the GA (scoresXgenerations)
-    3. Print the chosen parameters (actual scales)
-    4. ASCII histogram of the parameters (scaled) of the individuals
-       below the score threshold (over all generations)
-    5. Plot histogram of the parameters (scaled) of the individuals 
-       below the score threshold (over all generations)
-    6. ASCII histogram of the parameters (scaled) of the last generation 
-       individuals below the score threshold
-    7. ASCII histogram of the parameters (scaled) of the last generation 
-       individuals 
-    8. Parameter ranges built from the current parameters, with limits 
-       built uing the standard deviations of the last population scaled 
-       times a value given in the command line (see below)
-    9. Plot hystory of scores
+Produces: 
+
+1. Plots of the mean firing rates of the best simulation per area
+2. Plot of the history of best scores of the GA (scoresXgenerations)
+3. Print the chosen parameters (actual scales)
+4. ASCII histogram of the parameters (scaled) of the individuals below the score threshold (over all generations)
+5. Plot histogram of the parameters (scaled) of the individuals below the score threshold (over all generations)
+6. ASCII histogram of the parameters (scaled) of the last generation individuals below the score threshold
+7. ASCII histogram of the parameters (scaled) of the last generation individuals 
+8. Parameter ranges built from the current parameters, with limits built uing the standard deviations of the last population scaled times a value given in the command line (see below)
+9. Plot hystory of scores
 
 
 example: **python ga_test.py -r 0.5**
