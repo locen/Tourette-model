@@ -56,6 +56,7 @@ optional arguments:
 ***ga_test.py***
 
 Shows the results of a genetic algorithm.
+
 Produces: 
 
 1. Plots of the mean firing rates of the best simulation per area
