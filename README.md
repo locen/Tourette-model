@@ -1,7 +1,7 @@
 # Tourette-model
 Authors: Daniele Caligiore, Francesco Mannella, Michael A. Arbib and Gianluca Baldassarre
 
-
+```
 ├── README.md
 └── src
     ├── bg.py                   # Basal-Ganglia model
