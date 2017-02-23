@@ -6,8 +6,8 @@ Authors: Daniele Caligiore, Francesco Mannella, Michael A. Arbib and Gianluca Ba
 └── src
     ├── bg.py                   # Basal-Ganglia model
     ├── cerebellum.py           # Cerebellum model
-    ├── tics_simulation.py      # the simulation 
-    ├── parameter_manager.py    # manages the parameter of simulations
+    ├── tics_simulation.py      # the simulation core
+    ├── parameter_manager.py    # manages the parameters of the simulations
     ├
     ├── ga_search.py            # run simulations as individuals within a genetic algorithm
     ├── ga_test.py              # run test on the results of a genetic algorithm run with ga_search.py
