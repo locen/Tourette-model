@@ -20,10 +20,12 @@ ga_search.py
 
 Run genetic algorithms in parallel via mpi
 
-example: mpirun -n 8 python ga_search.py -g 100 -p 100 -t 1.0
+example: 
 
-    runs a genetic algorithm with populations of 100 individuals
-    for 100 generations. The simulation time maximum limit is 01:00 hour 
+mpirun -n 8 python ga_search.py -g 100 -p 100 -t 1.0
+
+runs a genetic algorithm with populations of 100 individuals
+for 100 generations. The simulation time maximum limit is 01:00 hour 
 
 ```
 usage:ga_search.py [-h] [-g NGEN] [-p NPOP] [-s SIGMA] [-m MUTATEPB] [-c MATEPB]
