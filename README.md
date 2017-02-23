@@ -14,7 +14,8 @@ Authors: Daniele Caligiore, Francesco Mannella, Michael A. Arbib and Gianluca Ba
     ├
     └── plot_utils.py           # utility plots (used by ga_test.py)
 
----------------------------------------------------------------------------------------
+```
+
 ga_search.py
 
 Run genetic algorithms in parallel via mpi
@@ -24,8 +25,7 @@ example: mpirun -n 8 python ga_search.py -g 100 -p 100 -t 1.0
     runs a genetic algorithm with populations of 100 individuals
     for 100 generations. The simulation time maximum limit is 01:00 hour 
 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+```
 usage:ga_search.py [-h] [-g NGEN] [-p NPOP] [-s SIGMA] [-m MUTATEPB] [-c MATEPB]
                    [-M MUTATEPB] [-C MATEPB] [-i INITTYPE] [-r SCORETYPE] [-v]
                    [-t EXECTIME]
@@ -51,9 +51,7 @@ optional arguments:
   -v, --savepotentials  Save potentials (default save activations)
   -t EXECTIME, --exectime EXECTIME
                         execution time (hours)
-
-
----------------------------------------------------------------------------------------
+```
 
 ga_test.py
 
@@ -80,7 +78,7 @@ example: python ga_test.py -r 0.5
 
     use (standard deviations)*0.5 in (8)
 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
 
 usage:ga_test.py [-r] [--range RSCALE]
 
@@ -88,5 +86,4 @@ optional arguments:
   -h, --help                 show this help message and exit
   -r RSCALE, --range RSCALE  scaling of parameters' standard deviatiations
                    to  build range limits
-
----------------------------------------------------------------------------------------
+```
